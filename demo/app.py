@@ -20,8 +20,9 @@ print(f"Status: Loading models on {device}...")
 controlnet = ControlNetModel.from_pretrained(controlnet_id, torch_dtype=torch.float16 if device == "cuda" else torch.float32).to(device)
 base_unet = UNet2DConditionModel.from_pretrained(model_id, subfolder="unet", torch_dtype=torch.float16 if device == "cuda" else torch.float32).to(device)
 
-# Inject LoRA weights
+# Inject and Merge LoRA weights for better compatibility
 unet = PeftModel.from_pretrained(base_unet, lora_path)
+unet = unet.merge_and_unload() # This merges the LoRA into the base model weights
 unet.eval()
 
 # Build Inference Pipeline
@@ -99,7 +100,11 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     
     with gr.Row():
         with gr.Column():
-            input_canny = gr.Image(label="ControlNet Canny Map", type="pil")
+            input_canny = gr.Image(
+                            value="assets/cast_def_0_0_canny.jpeg", # Carga la imagen al abrir la app
+                            label="ControlNet Canny Map", 
+                            type="pil"
+                        )
             alpha_slider = gr.Slider(minimum=0.0, maximum=1.0, step=0.05, value=0.5, label="Defect Severity (α)")
             seed_val = gr.Number(value=42, label="Random Seed")
             btn = gr.Button("Synthesize Defect", variant="primary")
@@ -110,9 +115,9 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     # Example Section
     gr.Examples(
         examples=[
-            [0.0, "assets/sample_canny.jpeg", 42],
-            [0.5, "assets/sample_canny.jpeg", 42],
-            [1.0, "assets/sample_canny.jpeg", 42]
+            [0.0, "assets/cast_def_0_0_canny.jpeg", 42],
+            [0.5, "assets/cast_def_0_0_canny.jpeg", 42],
+            [1.0, "assets/cast_def_0_0_canny.jpeg", 42]
         ],
         inputs=[alpha_slider, input_canny, seed_val]
     )
