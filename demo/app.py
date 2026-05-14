@@ -101,7 +101,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     with gr.Row():
         with gr.Column():
             input_canny = gr.Image(
-                            value="assets/cast_def_0_0_canny.jpeg", # Carga la imagen al abrir la app
+                            value="demo/assets/cast_def_0_0_canny.jpeg",
                             label="ControlNet Canny Map", 
                             type="pil"
                         )
@@ -115,9 +115,9 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     # Example Section
     gr.Examples(
         examples=[
-            [0.0, "assets/cast_def_0_0_canny.jpeg", 42],
-            [0.5, "assets/cast_def_0_0_canny.jpeg", 42],
-            [1.0, "assets/cast_def_0_0_canny.jpeg", 42]
+            [0.0, "demo/assets/cast_def_0_0_canny.jpeg", 42],
+            [0.5, "demo/assets/cast_def_0_0_canny.jpeg", 42],
+            [1.0, "demo/assets/cast_def_0_0_canny.jpeg", 42]
         ],
         inputs=[alpha_slider, input_canny, seed_val]
     )
