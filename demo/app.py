@@ -11,7 +11,8 @@ from peft import PeftModel
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model_id = "runwayml/stable-diffusion-v1-5"
 controlnet_id = "lllyasviel/sd-controlnet-canny"
-lora_path = "lora_weights" # Relative to app.py location
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+lora_path = os.path.join(SCRIPT_DIR, "lora_weights")
 
 print(f"Status: Loading models on {device}...")
 
