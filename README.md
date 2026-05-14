@@ -6,7 +6,7 @@ colorTo: red
 sdk: gradio
 sdk_version: 4.44.1
 app_file: demo/app.py
-python_version: 3.10
+python_version: "3.10"
 license: apache-2.0
 short_description: Industrial defect synthesis with SD, ControlNet & LoRA.
 ---
