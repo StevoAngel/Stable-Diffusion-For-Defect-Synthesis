@@ -8,7 +8,7 @@ sdk_version: 4.44.1
 app_file: demo/app.py
 python_version: 3.10
 license: apache-2.0
-short_description: Controlled industrial defect synthesis with Stable Diffusion, ControlNet, and LoRA.
+short_description: Industrial defect synthesis with SD, ControlNet & LoRA.
 ---
 
 # Stable Diffusion Defect Synthesis
