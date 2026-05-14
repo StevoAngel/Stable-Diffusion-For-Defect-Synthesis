@@ -1,14 +1,4 @@
-# Stable Diffusion Defect Synthesis
-
-Controlled synthesis of industrial casting defects using Stable Diffusion, ControlNet, and LoRA through latent text-embedding arithmetic.
-
-The project generates industrial casting parts from a Canny edge map and then steers the semantic result between a clean surface and a defect state using prompt interpolation.
-
-## Hugging Face Space Metadata
-
-Use this block at the top of the README if you publish the project as a Hugging Face Space:
-
-```yaml
+---
 title: Stable Diffusion Defect Synthesis
 emoji: 🏭
 colorFrom: gray
@@ -19,7 +9,14 @@ app_file: demo/app.py
 python_version: 3.10
 license: apache-2.0
 short_description: Controlled industrial defect synthesis with Stable Diffusion, ControlNet, and LoRA.
-```
+---
+
+# Stable Diffusion Defect Synthesis
+
+Controlled synthesis of industrial casting defects using Stable Diffusion, ControlNet, and LoRA through latent text-embedding arithmetic.
+
+The project generates industrial casting parts from a Canny edge map and then steers the semantic result between a clean surface and a defect state using prompt interpolation.
+
 
 ## Gallery
 
