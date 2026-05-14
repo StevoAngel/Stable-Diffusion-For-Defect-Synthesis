@@ -1,0 +1,79 @@
+# ==============================================================================
+# DATA & DATASETS
+# ==============================================================================
+# Ignore all content under data while keeping folder structure via .gitkeep
+data/*
+!data/.gitkeep
+!data/**/.gitkeep
+
+# Heavy data files
+*.csv
+*.xlsx
+*.xls
+
+# ==============================================================================
+# IMAGES (Global Ignore)
+# ==============================================================================
+# Ignore images globally to avoid uploading datasets by mistake
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.webp
+
+# EXCEPTION: If you need images for UI or README, unignore them here (example):
+# !demo/assets/*.png
+# !README_images/
+!demo/assets/
+!demo/assets/**
+
+# ==============================================================================
+# MODELS & CHECKPOINTS
+# ==============================================================================
+# Ignore training/model weight files by default
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.safetensors
+
+# EXCEPTION: Force inclusion of demo weights
+!demo/lora_weights/
+!demo/lora_weights/**
+
+# ==============================================================================
+# PYTHON & ENVIRONMENTS
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+dist/
+*.egg-info/
+*.egg
+
+# ==============================================================================
+# IDE & OS
+# ==============================================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==============================================================================
+# JUPYTER & RESEARCH
+# ==============================================================================
+.ipynb_checkpoints/
+mlruns/
+.mlflow/
+reports/
+outputs/
+results/

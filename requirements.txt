@@ -1,0 +1,10 @@
+torch
+torchvision
+diffusers
+transformers
+peft
+accelerate
+gradio
+numpy
+Pillow
+matplotlib

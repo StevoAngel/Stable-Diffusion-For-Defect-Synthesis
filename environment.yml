@@ -1,0 +1,26 @@
+name: sd_defect_synthesis
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - pytorch-cuda=12.1
+  - diffusers
+  - transformers
+  - peft
+  - accelerate
+  - numpy
+  - matplotlib
+  - pandas
+  - pillow
+  - tqdm
+  - pip
+  - pip:
+      - gradio
+      - mlflow
+      - opencv-python 
+      - xformers       
