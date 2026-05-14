@@ -84,6 +84,12 @@ data/
 
 The `.gitkeep` files preserve this structure even when the folders are empty.
 
+## Dataset Reference
+
+The casting images used to build this project are based on the Kaggle dataset below:
+
+- https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product
+
 ## Training Workflow
 
 1. Prepare the raw casting images under `data/raw`.
