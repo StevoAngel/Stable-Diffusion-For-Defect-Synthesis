@@ -4,7 +4,7 @@ emoji: 🏭
 colorFrom: gray
 colorTo: red
 sdk: gradio
-sdk_version: 5.7.1
+sdk_version: 4.44.1
 app_file: demo/app.py
 python_version: "3.10"
 license: apache-2.0
