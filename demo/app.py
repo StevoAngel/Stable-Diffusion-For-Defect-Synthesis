@@ -114,7 +114,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         inputs=[alpha_slider, seed_val]
     )
 
-    btn.click(fn=generate_defect, inputs=[alpha_slider, seed_val], outputs=output_img)
+    btn.click(fn=generate_defect, inputs=[alpha_slider, seed_val], outputs=output_img, api_name=False)
+
 
 if __name__ == "__main__":
     demo.launch()
