@@ -7,5 +7,3 @@ accelerate
 numpy
 Pillow
 matplotlib
-huggingface_hub==0.23.2
-pydantic<2.0

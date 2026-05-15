@@ -4,11 +4,11 @@ emoji: 🏭
 colorFrom: gray
 colorTo: red
 sdk: gradio
-sdk_version: 4.44.1
+sdk_version: 3.50.2
 app_file: demo/app.py
 python_version: "3.10"
 license: apache-2.0
-short_description: Industrial defect synthesis with SD, ControlNet & LoRA.
+short_description: Industrial defect synthesis via SD, ControlNet & LoRA.
 ---
 
 # Stable Diffusion Defect Synthesis
