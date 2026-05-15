@@ -22,7 +22,7 @@ base_unet = UNet2DConditionModel.from_pretrained(model_id, subfolder="unet", tor
 
 # Inject and Merge LoRA weights for better compatibility
 unet = PeftModel.from_pretrained(base_unet, lora_path)
-unet = unet.merge_and_unload() # This merges the LoRA into the base model weights
+unet = unet.merge_and_unload()
 unet.eval()
 
 # Build Inference Pipeline
@@ -41,7 +41,6 @@ pipe.safety_checker = None
 # 2. Logic: Latent Arithmetic & Synthesis
 # ==============================================================================
 def get_text_embeddings(prompt):
-    """Extracts mathematical embeddings from text."""
     text_inputs = pipe.tokenizer(
         prompt, padding="max_length", max_length=pipe.tokenizer.model_max_length, 
         truncation=True, return_tensors="pt"
@@ -49,30 +48,27 @@ def get_text_embeddings(prompt):
     with torch.no_grad():
         return pipe.text_encoder(text_inputs.input_ids.to(device))[0]
 
-def generate_defect(alpha, canny_image, seed):
+def generate_defect(alpha, seed):
     """
-    Core function to synthesize the defect using latent interpolation.
+    Synthesize defect using latent interpolation, with a hardcoded Canny structure.
     """
-    # Define the two semantic poles
     prompt_ok = "photo of SKS_PART, top-down industrial inspection, circular machined component, flawless smooth surface, neutral factory lighting"
     prompt_def = "photo of SKS_PART, top-down industrial inspection, circular machined component, severe porosity defect, surface blowholes and cavities, neutral factory lighting"
     negative_prompt = "relic, face, skull, mask, bronze, jewelry, colorful, 3d render, blurry, distorted"
 
-    # Compute Embeddings
     embed_ok = get_text_embeddings(prompt_ok)
     embed_def = get_text_embeddings(prompt_def)
     embed_neg = get_text_embeddings(negative_prompt)
 
-    # LATENT ARITHMETIC: Linear interpolation between OK and Defect
+    # LATENT ARITHMETIC
     interp_embeds = (1.0 - alpha) * embed_ok + alpha * embed_def
 
-    # Fixed seed for consistent background/texture
     generator = torch.Generator(device=device).manual_seed(int(seed))
     
-    # Process image for ControlNet
-    canny_image = canny_image.convert("RGB").resize((320, 320))
+    # LOAD CANNY INTERNALLY (Hidden from user)
+    canny_path = os.path.join(SCRIPT_DIR, "assets", "cast_def_0_0_canny.jpeg")
+    canny_image = Image.open(canny_path).convert("RGB").resize((320, 320))
 
-    # Generate
     output = pipe(
         prompt_embeds=interp_embeds,
         negative_prompt_embeds=embed_neg,
@@ -87,42 +83,38 @@ def generate_defect(alpha, canny_image, seed):
     return output
 
 # ==============================================================================
-# 3. Gradio Interface Layout
+# 3. Gradio Interface Layout (Minimalist)
 # ==============================================================================
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         """
         # 🏭 Stable Diffusion Defect Synthesis
         ### Industrial Defect Generation via ControlNet & LoRA Latent Arithmetic
-        This interface allows you to control the severity of defects defects in cast components using a progressive scale (α).
+        This interface allows you to control the severity of defects in cast components using a progressive scale (α).
         """
     )
     
     with gr.Row():
         with gr.Column():
-            input_canny = gr.Image(
-                            value="demo/assets/cast_def_0_0_canny.jpeg",
-                            label="ControlNet Canny Map", 
-                            type="pil"
-                        )
+            gr.Markdown("### Control Parameters")
             alpha_slider = gr.Slider(minimum=0.0, maximum=1.0, step=0.05, value=0.5, label="Defect Severity (α)")
-            seed_val = gr.Number(value=42, label="Random Seed")
+            seed_val = gr.Number(value=42, label="Random Seed (Texture Variant)")
             btn = gr.Button("Synthesize Defect", variant="primary")
         
         with gr.Column():
             output_img = gr.Image(label="Synthesized Industrial Part")
 
-    # Example Section
     gr.Examples(
         examples=[
-            [0.0, "demo/assets/cast_def_0_0_canny.jpeg", 42],
-            [0.5, "demo/assets/cast_def_0_0_canny.jpeg", 42],
-            [1.0, "demo/assets/cast_def_0_0_canny.jpeg", 42]
+            [0.0, 42],
+            [0.5, 42],
+            [1.0, 42],
+            [1.0, 1024]
         ],
-        inputs=[alpha_slider, input_canny, seed_val]
+        inputs=[alpha_slider, seed_val]
     )
 
-    btn.click(fn=generate_defect, inputs=[alpha_slider, input_canny, seed_val], outputs=output_img)
+    btn.click(fn=generate_defect, inputs=[alpha_slider, seed_val], outputs=output_img)
 
 if __name__ == "__main__":
     demo.launch()
