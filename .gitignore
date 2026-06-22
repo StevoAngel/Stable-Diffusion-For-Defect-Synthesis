@@ -3,6 +3,8 @@
 # ==============================================================================
 # Ignore all content under data while keeping folder structure via .gitkeep
 data/*
+!data/
+!data/**/
 !data/.gitkeep
 !data/**/.gitkeep
 
